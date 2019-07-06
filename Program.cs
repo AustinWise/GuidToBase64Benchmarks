@@ -7,16 +7,6 @@ namespace EfficientGuids.Performance
     internal class Program
     {
         private static void Main(string[] args) => _ = BenchmarkRunner.Run<GuidExtensionsBenchmarks>();
-        //private static void Main(string[] args)
-        //{
-        //    var guid = Guid.NewGuid();
-        //    var v1 = Convert.ToBase64String(guid.ToByteArray()).Replace("/", "-").Replace("+", "_").Replace("=", "");
-        //    var v3 = GuidExtensions3.EncodeBase64String(guid);
-        //    Console.WriteLine(v1.Equals(v3));
-        //    Console.WriteLine(v1);
-        //    Console.WriteLine(v3);
-
-        //}
     }
 
     [MemoryDiagnoser]
@@ -37,18 +27,12 @@ namespace EfficientGuids.Performance
 
 
         [Benchmark]
-        public string Base64EncodedGuid2() => GuidExtensions2.EncodeBase64String(_guid);
+        public string Base64EncodedGuidImproved() => GuidExtensionsImproved.EncodeBase64String(_guid);
 
         [Benchmark]
-        public string Base64EncodedGuid3() => GuidExtensions3.EncodeBase64String(_guid);
+        public string Base64EncodedGuidAustin() => GuidExtensionsAustin.EncodeBase64String(_guid);
 
         [Benchmark]
-        public string Base64EncodedGuid4() => GuidExtensions4.EncodeBase64String(_guid);
-
-        [Benchmark]
-        public string Base64EncodedGuid5() => GuidExtensions5.EncodeBase64String(_guid);
-
-        //[Benchmark]
-        //public string NullString() => new string('\0', 22);
+        public string CreateNullString() => new string('\0', 22);
     }
 }

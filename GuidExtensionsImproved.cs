@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace EfficientGuids
 {
-    public static class GuidExtensions2
+    public static class GuidExtensionsImproved
     {
         private const byte ForwardSlashByte = (byte)'/';
         private const byte PlusByte = (byte)'+';
