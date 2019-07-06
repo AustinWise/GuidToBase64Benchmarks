@@ -40,6 +40,12 @@ namespace EfficientGuids.Performance
         public string Base64EncodedGuid2() => GuidExtensions2.EncodeBase64String(_guid);
 
         [Benchmark]
-        public string Base64EncodedGuid3() => GuidExtensions2.EncodeBase64String(_guid);
+        public string Base64EncodedGuid3() => GuidExtensions3.EncodeBase64String(_guid);
+
+        [Benchmark]
+        public string Base64EncodedGuid4() => GuidExtensions4.EncodeBase64String(_guid);
+
+        //[Benchmark]
+        //public string NullString() => new string('\0', 22);
     }
 }
