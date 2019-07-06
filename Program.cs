@@ -6,7 +6,7 @@ namespace EfficientGuids.Performance
 {
     internal class Program
     {
-        private static void Main(string[] args) => _ = BenchmarkRunner.Run<GuidExtensionsBenchmarks>();
+        private static void Main(string[] args) => BenchmarkRunner.Run<GuidExtensionsBenchmarks>();
     }
 
     [MemoryDiagnoser]
@@ -27,10 +27,10 @@ namespace EfficientGuids.Performance
 
 
         [Benchmark]
-        public string Base64EncodedGuidImproved() => GuidExtensionsImproved.EncodeBase64String(_guid);
+        public string Base64EncodedGuidCast() => GuidExtensionsImproved.EncodeBase64String(_guid);
 
         [Benchmark]
-        public string Base64EncodedGuidAustin() => GuidExtensionsAustin.EncodeBase64String(_guid);
+        public string Base64EncodedGuidStringCreate() => GuidExtensionsAustin.EncodeBase64String(_guid);
 
         [Benchmark]
         public string CreateNullString() => new string('\0', 22);

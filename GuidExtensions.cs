@@ -14,7 +14,7 @@ namespace EfficientGuids
         private const byte PlusByte = (byte)'+';
         private const byte UnderscoreByte = (byte)'_';
 
-        public static string EncodeBase64String(Guid guid)
+        public static string EncodeBase64String(this Guid guid)
         {
             Span<byte> guidBytes = stackalloc byte[16];
             Span<byte> encodedBytes = stackalloc byte[24];

@@ -13,7 +13,7 @@ namespace EfficientGuids
         private const char Underscore = '_';
         private const char Dash = '-';
 
-        public static string EncodeBase64String(Guid guid)
+        public static string EncodeBase64String(this Guid guid)
         {
             Span<byte> guidBytes = stackalloc byte[16];
             Span<byte> encodedBytes = stackalloc byte[24];
