@@ -13,7 +13,7 @@ namespace EfficientGuids
 {
     public static class GuidExtensionsAustin
     {
-        public static string EncodeBase64String(Guid guid) => string.Create(22, guid, sDelegate);
+        public static string EncodeBase64String(this Guid guid) => string.Create(22, guid, sDelegate);
 
         static readonly SpanAction<char, Guid> sDelegate = DoBase64;
 
