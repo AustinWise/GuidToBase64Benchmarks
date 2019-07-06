@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Originally from: https://twitter.com/markrendle/status/1141695153574486019
+
+using System;
 using System.Buffers.Text;
 using System.Runtime.InteropServices;
 
