@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ConsoleApp6": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "COMPlus_TieredCompilation": "0"
+      }
+    }
+  }
+}
