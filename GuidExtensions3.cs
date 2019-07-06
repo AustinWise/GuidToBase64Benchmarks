@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Buffers.Text;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace EfficientGuids
@@ -11,9 +10,9 @@ namespace EfficientGuids
         {
             return string.Create(22, guid, (outChars, state) =>
             {
-                ref byte inData = ref Unsafe.As<Guid, byte>(ref state);
-                int lengthmod3 = Unsafe.SizeOf<Guid>() % 3;
-                int calcLength = Unsafe.SizeOf<Guid>() - lengthmod3;
+                ReadOnlySpan<Byte> inData = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref state, 1));
+                int lengthmod3 = inData.Length % 3;
+                int calcLength = inData.Length - lengthmod3;
                 int j = 0;
                 //Convert three bytes at a time to base64 notation.  This will consume 4 chars.
                 int i;
@@ -23,18 +22,33 @@ namespace EfficientGuids
                 {
                     for (i = 0; i < calcLength; i += 3)
                     {
-                        outChars[j] = base64[(Unsafe.Add(ref inData, i) & 0xfc) >> 2];
-                        outChars[j + 1] = base64[((Unsafe.Add(ref inData, i) & 0x03) << 4) | ((Unsafe.Add(ref inData, i + 1) & 0xf0) >> 4)];
-                        outChars[j + 2] = base64[((Unsafe.Add(ref inData, i + 1) & 0x0f) << 2) | ((Unsafe.Add(ref inData, i + 2) & 0xc0) >> 6)];
-                        outChars[j + 3] = base64[(Unsafe.Add(ref inData, i + 2) & 0x3f)];
+                        outChars[j] = base64[(inData[i] & 0xfc) >> 2];
+                        outChars[j + 1] = base64[((inData[i] & 0x03) << 4) | ((inData[i + 1] & 0xf0) >> 4)];
+                        outChars[j + 2] = base64[((inData[i + 1] & 0x0f) << 2) | ((inData[i + 2] & 0xc0) >> 6)];
+                        outChars[j + 3] = base64[(inData[i + 2] & 0x3f)];
                         j += 4;
                     }
 
                     //Where we left off before
                     i = calcLength;
 
-                    outChars[j] = base64[(Unsafe.Add(ref inData, i) & 0xfc) >> 2];
-                    outChars[j + 1] = base64[(Unsafe.Add(ref inData, i) & 0x03) << 4];
+                    switch (lengthmod3)
+                    {
+                        case 2: //One character padding needed
+                            outChars[j] = base64[(inData[i] & 0xfc) >> 2];
+                            outChars[j + 1] = base64[((inData[i] & 0x03) << 4) | ((inData[i + 1] & 0xf0) >> 4)];
+                            outChars[j + 2] = base64[(inData[i + 1] & 0x0f) << 2];
+                            //outChars[j + 3] = base64[64]; //Pad
+                            j += 4;
+                            break;
+                        case 1: // Two character padding needed
+                            outChars[j] = base64[(inData[i] & 0xfc) >> 2];
+                            outChars[j + 1] = base64[(inData[i] & 0x03) << 4];
+                            //outChars[j + 2] = base64[64]; //Pad
+                            //outChars[j + 3] = base64[64]; //Pad
+                            j += 4;
+                            break;
+                    }
                 }
             });
         }
