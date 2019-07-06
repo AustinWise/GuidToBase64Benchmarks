@@ -17,6 +17,11 @@ namespace EfficientGuids
 
         static readonly SpanAction<char, Guid> sDelegate = DoBase64;
 
+        //This method is based on ConvertToBase64Array in the System.Convert class.
+        //The main changes are:
+        //  * The base64Table switches from using '+' to '_', and from '/' to '-'.
+        //  * Since the length is always fixed, the last couple characters are written without testing the length.
+        //  * The last two padding bytes are ommited.
         unsafe static void DoBase64(Span<char> outChars, Guid state)
         {
             ReadOnlySpan<byte> inData = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(ref state, 1));
