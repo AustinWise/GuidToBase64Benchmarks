@@ -4,10 +4,10 @@
 [article about converting GUIDs into a base64-like string][OriginalBlogPost]. Later
 [Mark Rendle tweeted][MarkRendleTweet] a faster version. My version improves throughput by:
 
-* Not encoding to UTF-8 and decoding from UTF-8.
-* Directly encoding to the modified base64 format instead of fixing up the base64 string afterwards.
 * Less copying of string bytes by directly writing the output in the characters of the string
-  using `string.Create`.
+  using `string.Create`. This is the most interesting part of my improved version, in my opinion.
+* Directly encoding to the modified base64 format instead of fixing up the base64 string afterwards.
+* Not encoding to UTF-8 and decoding from UTF-8.
 
 The `Base64EncodedGuidStringCreate` method in the table below is my version. `CreateNullString`
 is measures how long `new string('\0', 22)` takes, which represents the upper bound on performance
