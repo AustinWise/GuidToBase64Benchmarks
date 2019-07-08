@@ -5,7 +5,7 @@
 [Mark Rendle tweeted][MarkRendleTweet] a faster version. My version improves throughput by:
 
 * Not encoding to UTF-8 and decoding from UTF-8.
-* Directly encoding to the modified UTF-8 format instead of fixing up the base64 string afterwards.
+* Directly encoding to the modified base64 format instead of fixing up the base64 string afterwards.
 * Less copying of string bytes by directly writing the output in the characters of the string
   using `string.Create`.
 
